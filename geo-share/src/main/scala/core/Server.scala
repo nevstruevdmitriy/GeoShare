@@ -13,10 +13,10 @@ object SimpleHttp extends App {
 
   implicit val log = Logging(system, "main")
 
-  val port = 8080
+  val port = sys.env.get("PORT").getOrElse("8080").toInt
 
   val bindingFuture =
-    Http().bindAndHandle(HealthRoute.healthRoute, "localhost", port)
+    Http().bindAndHandle(HealthRoute.healthRoute, "0.0.0.0", port)
 
   log.info(s"Server started at the port $port")
 }

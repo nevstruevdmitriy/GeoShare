@@ -1,11 +1,11 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "2.13.6"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
+ThisBuild / scalaVersion     := "2.11.11"
+ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "com.example"
 ThisBuild / organizationName := "example"
 
-lazy val root = (project in file("."))
+lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging)
   .settings(
     name := "Geo share",
     libraryDependencies ++= Seq(
@@ -16,5 +16,3 @@ lazy val root = (project in file("."))
       specs2Core % Test
     )
   )
-
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
