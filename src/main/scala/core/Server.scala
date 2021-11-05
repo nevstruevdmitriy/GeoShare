@@ -3,20 +3,26 @@ package core
 import akka.actor.ActorSystem
 import akka.event.Logging
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
+
 import core.routes.http.HealthRoute
+import core.routes.http.NewPointRoute
+import core.routes.http.GetPointsRoute
 
 object SimpleHttp extends App {
+    implicit val system: ActorSystem = ActorSystem("simple-http")
+    implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  implicit val system: ActorSystem = ActorSystem("simple-http")
-  implicit val materializer: ActorMaterializer = ActorMaterializer()
+    implicit val log = Logging(system, "main")
 
-  implicit val log = Logging(system, "main")
+    val port = sys.env.get("PORT").getOrElse("8080").toInt
+    val route: Route = RouteConcatenation.concat(
+      HealthRoute.healthRoute, 
+      NewPointRoute.newPointRoute,
+      GetPointsRoute.getPointsRoute)
 
-  val port = sys.env.get("PORT").getOrElse("8080").toInt
+    val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", port)
 
-  val bindingFuture =
-    Http().bindAndHandle(HealthRoute.healthRoute, "0.0.0.0", port)
-
-  log.info(s"Server started at the port $port")
+    log.info(s"Server started at the port $port")
 }
