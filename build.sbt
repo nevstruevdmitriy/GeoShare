@@ -9,6 +9,10 @@ lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging)
   .settings(
     name := "Geo share",
     libraryDependencies ++= Seq(
+      qos_logback,
+      postgresql,
+      apache,
+      jdbc,
       akkaHttp,
       akkaStream,
       akkaTestKit % Test,
