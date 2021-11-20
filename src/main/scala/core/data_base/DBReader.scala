@@ -2,7 +2,6 @@ package core.data_base
 
 import core.data_base.datasource.Datasource
 import core.geo.Point
-import core.geo.Points
 import akka.event.Logging
 import scala.collection.mutable.ListBuffer
 
