@@ -3,13 +3,12 @@ package core.geo
 import java.sql.ResultSet
 import java.sql.Timestamp
 
-case class Point(results: ResultSet) {
-    val userId: String = results.getString("user_id")
-    val latitude: Double = results.getDouble("latitude")
-    val longitude: Double = results.getDouble("longitude")
-    val timeCreated: Timestamp = results.getTimestamp("time_created")
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
+import spray.json._
 
-    override def toString(): String = {
-        s"id: $userId, ($latitude, $longitude), created: $timeCreated\n"
-    }
+
+final case class Point(userId: String, latitude: Double, longitude: Double)
+
+trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
+    implicit val pointFormat = jsonFormat3(Point)
 }

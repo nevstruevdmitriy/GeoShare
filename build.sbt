@@ -15,6 +15,7 @@ lazy val root = (project in file(".")).enablePlugins(JavaAppPackaging)
       jdbc,
       akkaHttp,
       akkaStream,
+      sprayJson,
       akkaTestKit % Test,
       akkaHttpTestKit % Test,
       specs2Core % Test

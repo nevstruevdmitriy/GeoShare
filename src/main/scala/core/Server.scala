@@ -9,6 +9,7 @@ import akka.stream.ActorMaterializer
 import core.routes.http.HealthRoute
 import core.routes.http.NewPointRoute
 import core.routes.http.GetPointsRoute
+import core.routes.http.MainRoute
 
 object SimpleHttp extends App {
     implicit val system: ActorSystem = ActorSystem("simple-http")
@@ -20,7 +21,8 @@ object SimpleHttp extends App {
     val route: Route = RouteConcatenation.concat(
       HealthRoute.healthRoute, 
       NewPointRoute.newPointRoute,
-      GetPointsRoute.getPointsRoute)
+      GetPointsRoute.getPointsRoute,
+      MainRoute.mainRoute)
 
     val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", port)
 
