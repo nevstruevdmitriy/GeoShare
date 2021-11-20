@@ -15,7 +15,7 @@ var map = new ol.Map({
 });
 
 function parsePoint(point_json) {
-    return ol.proj.fromLonLat([point_json["latitude"], point_json["longitude"]])
+    return ol.proj.fromLonLat([point_json["longitude"], point_json["latitude"]])
 }
 
 function httpGetPoints()
