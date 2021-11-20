@@ -2,6 +2,9 @@ package core.data_base
 
 import core.data_base.datasource.Datasource
 import core.geo.Point
+import core.geo.Points
+import akka.event.Logging
+import scala.collection.mutable.ListBuffer
 
 object DBReader {
     val connection = Datasource.connectionPool.getConnection
@@ -16,13 +19,13 @@ object DBReader {
     def readGeoPoints() = {
         val statement = connection.createStatement()
         val results = statement.executeQuery("SELECT user_id, latitude, longitude, time_created FROM points")
-        var out: String = ""
+
+        var points = ListBuffer.empty[Point]
 
         while (results.next()) {
-            val point = new Point(results);
-            out += point.toString()
+            points += Point(results.getString("user_id"), results.getDouble("latitude"), results.getDouble("longitude"))
         }
 
-        out
+        points.toList
     }
 }
