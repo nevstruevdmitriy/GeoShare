@@ -11,11 +11,19 @@ object NewPointRoute {
             post {
             parameters("userId", "latitude", "longitude") {
                 (user_id, latitude, longitude) =>
-                    if (DBReader.getLastGeoPoint(user_id).isNear(latitude.toDouble, longitude.toDouble)) {
-                        DBReader.sendGeoPoint(user_id, latitude.toDouble, longitude.toDouble)
+                    var is_near = false;
+                    val lat = latitude.toDouble
+                    val lon = longitude.toDouble
+                    try {
+                        is_near = DBReader.getLastGeoPoint(user_id).isNear(lat, lon)
+                    } finally {}
+
+                    if (!is_near) {
+                        DBReader.sendGeoPoint(user_id, lat, lon)
                         complete("true")
+                    } else {
+                        complete("false")
                     }
-                    complete("false")
             }
         }
     }
