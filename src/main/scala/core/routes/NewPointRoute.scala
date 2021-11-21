@@ -16,7 +16,7 @@ object NewPointRoute {
                     val lon = longitude.toDouble
                     try {
                         is_near = DBReader.getLastGeoPoint(user_id).isNear(lat, lon)
-                    } finally {}
+                    } catch { case _: Throwable => }
 
                     if (!is_near) {
                         DBReader.sendGeoPoint(user_id, lat, lon)
