@@ -11,8 +11,11 @@ object NewPointRoute {
             post {
             parameters("userId", "latitude", "longitude") {
                 (user_id, latitude, longitude) =>
-                    DBReader.sendGeoPoint(user_id, latitude.toDouble, longitude.toDouble);
-                    complete(StatusCodes.OK)
+                    if (DBReader.getLastGeoPoint(user_id).isNear(latitude.toDouble, longitude.toDouble)) {
+                        DBReader.sendGeoPoint(user_id, latitude.toDouble, longitude.toDouble)
+                        complete("true")
+                    }
+                    complete("false")
             }
         }
     }
